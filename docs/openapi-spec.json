@@ -1,0 +1,855 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Chatter API",
+    "description": "HTTP/REST API for Chatter Service",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Server"
+    }
+  ],
+  "paths": {
+    "/orgs": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Query or search organizations",
+        "description": "Retrieves a collection of organizations",
+        "operationId": "findOrganizations",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The parameter to filter the query results using the name of the organization",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "description": "The parameter to control the projection of query results. Can be a comma delimited set of model attributes",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
+            "schema": {
+              "type": "string",
+              "default": "name",
+              "nullable": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination parameter to control the page number",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The pagination parameter to control the number of returned records per page",
+            "schema": {
+              "type": "integer",
+              "default": 25,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully queried resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/CommentQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidCredentialsError"
+          },
+          "403": {
+            "$ref": "#/components/responses/NotAuthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+
+            ]
+          }
+        ]
+      }
+    },
+    "/orgs/{name}/comments": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Query or search comments",
+        "description": "Retrieves a collection of comments associated to an organization",
+        "operationId": "findOrganizationComments",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the organization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The parameter to filter the query results using a property",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "description": "The parameter to control the projection of query results. Can be a comma delimited set of model attributes",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
+            "schema": {
+              "type": "string",
+              "default": "name",
+              "nullable": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination parameter to control the page number",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The pagination parameter to control the number of returned records per page",
+            "schema": {
+              "type": "integer",
+              "default": 25,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully queried resources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/CommentQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidCredentialsError"
+          },
+          "403": {
+            "$ref": "#/components/responses/NotAuthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Post a new comment for an organization",
+        "description": "Post a new comment for an organization",
+        "operationId": "createOrganizationComment",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the organization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "description": "The parameter to control the projection of response results. Can be a comma delimited set of model attributes",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New comment to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created comment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidCredentialsError"
+          },
+          "403": {
+            "$ref": "#/components/responses/NotAuthorizedError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Soft deletes all comments associated to an organization",
+        "description": "Soft deletes all comments associated to an organization",
+        "operationId": "deleteOrganizationComments",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the organization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/DeleteResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidCredentialsError"
+          },
+          "403": {
+            "$ref": "#/components/responses/NotAuthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/ResourceNotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+
+            ]
+          }
+        ]
+      }
+    },
+    "/orgs/{name}/members": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Query or search the members of the organization",
+        "description": "Query or search the members of the organization",
+        "operationId": "findOrganizationMembers",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the organization",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "The parameter to filter the query results using the member's name",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "description": "The parameter to control the projection of query results. Can be a comma delimited set of model attributes",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "The parameter to control inline expansion of related or associated objects. Can be a comma delimited set of model attributes",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
+            "schema": {
+              "type": "string",
+              "default": "name",
+              "nullable": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination parameter to control the page number",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The pagination parameter to control the number of returned records per page",
+            "schema": {
+              "type": "integer",
+              "default": 25,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully queried members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/UserQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidCredentialsError"
+          },
+          "403": {
+            "$ref": "#/components/responses/NotAuthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "description": "User model",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "description": "The identifier for the user record",
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "organization": {
+            "description": "Ref: Organization. The organization the user is associated with.",
+            "type": "string",
+            "format": "uuid"
+          },
+          "loginId": {
+            "description": "The login id of the user",
+            "type": "string"
+          },
+          "avatar": {
+            "description": "The avatar url of the user",
+            "type": "string",
+            "format": "uri"
+          },
+          "followers": {
+            "description": "The number of followers of the user.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "following": {
+            "description": "The number of people being followed by the user.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "createdAt": {
+            "description": "The timestamp for when the record has been created. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "description": "The timestamp for when the record has been last updated. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "description": "Comment model",
+        "required": [
+          "comment"
+        ],
+        "properties": {
+          "id": {
+            "description": "The identifier for the comment record",
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "organization": {
+            "description": "Ref: Organization. The organization the comment is associated with.",
+            "type": "string",
+            "format": "uuid"
+          },
+          "comment": {
+            "description": "The comment text",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "The timestamp for when the record has been created. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "description": "The timestamp for when the record has been last updated. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "description": "Organization model",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "description": "The identifier for the organization record",
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "name": {
+            "description": "The name of the organization",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "The timestamp for when the record has been created. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "description": "The timestamp for when the record has been last updated. For auditing purposes only",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "UserQueryResponse": {
+        "description": "Successfully queried user",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/responses/QueryResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "CommentQueryResponse": {
+        "description": "Successfully queried comments",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/responses/QueryResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Comment"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "OrganizationQueryResponse": {
+        "description": "Successfully queried organizations",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/responses/QueryResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Organization"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "QueryResponse": {
+        "description": "Successfully queried resources",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "Generic response schema for queries or search",
+              "properties": {
+                "totalRecords": {
+                  "description": "The total number of records or records returned by the query",
+                  "type": "integer",
+                  "default": 0,
+                  "readOnly": true
+                },
+                "totalPages": {
+                  "description": "The total number of pages returned by the query",
+                  "type": "integer",
+                  "default": 0,
+                  "readOnly": true
+                },
+                "page": {
+                  "description": "The current page when navigating the query results",
+                  "type": "integer",
+                  "default": 1,
+                  "readOnly": true
+                },
+                "limit": {
+                  "description": "The limit, size or number of records returned per page by the query",
+                  "type": "integer",
+                  "default": 25,
+                  "readOnly": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "default": [
+
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GenericResponse": {
+        "description": "Successfully deleted resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "Generic response message",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "description": "A descriptive message for the response",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeleteResponse": {
+        "description": "Successfully deleted resource/s",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/responses/GenericResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The number of records deleted from the database",
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "The error or response code",
+                  "type": "integer",
+                  "format": "int32",
+                  "readOnly": true
+                },
+                "type": {
+                  "description": "The error name or type",
+                  "type": "string",
+                  "readOnly": true
+                },
+                "message": {
+                  "description": "A high level descriptive message for the error",
+                  "type": "string",
+                  "readOnly": true
+                },
+                "data": {
+                  "description": "Detailed description of the errors in the request",
+                  "type": "array",
+                  "readOnly": true,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "description": "The error name or type",
+                        "type": "string",
+                        "default": ""
+                      },
+                      "field": {
+                        "description": "The name of the field with the error",
+                        "type": "string",
+                        "default": ""
+                      },
+                      "message": {
+                        "description": "The detailed error message",
+                        "type": "string",
+                        "default": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequestError": {
+        "description": "Invalid input or validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ConflictError": {
+        "description": "Unique constraint validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InvalidCredentialsError": {
+        "description": "Authentication has failed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotAuthorizedError": {
+        "description": "Method is not allowed or access has been denied",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ResourceNotFoundError": {
+        "description": "Resource not found error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Unexpected Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

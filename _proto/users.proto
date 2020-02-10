@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package users;
+
+import "commons.proto";
+
+message User {
+  string id = 1;
+  string organization = 2;
+  string loginId = 3;
+  string avatar = 4;
+  int32 followers = 5;
+  int32 following = 6;
+  string createdAt = 7;
+  string updatedAt = 8;
+  int32 version = 9;
+}
+
+message UsersList {
+  repeated User data = 5;
+}
+
+service UsersService {
+  rpc findAll (commons.Query) returns (UsersList) {}
+  rpc count (commons.Query) returns (commons.Count) {}
+}

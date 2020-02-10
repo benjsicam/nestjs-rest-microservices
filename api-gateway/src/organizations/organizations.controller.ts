@@ -2,7 +2,7 @@ import { PinoLogger } from 'nestjs-pino'
 import { ClientGrpc } from '@nestjs/microservices'
 import { Controller, HttpCode, Get, Post, Delete, Query, Body, Param, Inject, OnModuleInit, NotFoundException } from '@nestjs/common'
 
-import { QueryUtils } from 'src/utils/query.utils'
+import { QueryUtils } from '../utils/query.utils'
 import { RequestQuery, Count, QueryResponse } from '../commons/interfaces/request-response.interface'
 
 import { CommentsService, Comment } from '../comments/interfaces/comments.interface'

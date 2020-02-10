@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package comments;
+
+import "commons.proto";
+
+message Comment {
+  string id = 1;
+  string organization = 2;
+  string comment = 3;
+  string createdAt = 4;
+  string updatedAt = 5;
+  int32 version = 6;
+}
+
+message CreateCommentInput {
+  string organization = 1;
+  string comment = 2;
+}
+
+message CommentsList {
+  repeated Comment data = 5;
+}
+
+service CommentsService {
+  rpc findAll (commons.Query) returns (CommentsList) {}
+  rpc count (commons.Query) returns (commons.Count) {}
+  rpc create (CreateCommentInput) returns (Comment) {}
+  rpc destroy (commons.Query) returns (commons.Count) {}
+}

@@ -8,8 +8,8 @@ export interface Name {
 
 export interface Query {
   attributes?: string[]
-  where?: any
-  order?: any
+  where?: string
+  order?: string
   offset?: number
   limit?: number
 }

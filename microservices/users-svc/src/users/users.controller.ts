@@ -3,7 +3,7 @@ import { Controller, Inject } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 
 import { Count, Query } from '../commons/interfaces/commons.interface'
-import { UsersService } from './users.interface'
+import { UsersService, UserServiceQueryResult } from './users.interface'
 
 import { User } from './user.entity'
 
@@ -14,28 +14,28 @@ export class UsersController {
   }
 
   @GrpcMethod('UsersService', 'findAll')
-  async findAll(data: Query): Promise<User[]> {
-    this.logger.info('UsersController#findAll.call', data)
+  async findAll(query: Query): Promise<UserServiceQueryResult> {
+    this.logger.info('UsersController#findAll.call', query)
 
-    const result = await this.usersService.findAll({
-      attributes: data.attributes || undefined,
-      where: data.where ? JSON.parse(data.where) : undefined,
-      order: data.order ? JSON.parse(data.order) : undefined,
-      offset: data.offset ? data.offset : 0,
-      limit: data.limit ? data.limit : 25
+    const result: Array<User> = await this.usersService.findAll({
+      attributes: query.attributes || undefined,
+      where: query.where ? JSON.parse(query.where) : undefined,
+      order: query.order ? JSON.parse(query.order) : undefined,
+      offset: query.offset ? query.offset : 0,
+      limit: query.limit ? query.limit : 25
     })
 
     this.logger.info('UsersController#findAll.result', result)
 
-    return result
+    return { data: result }
   }
 
   @GrpcMethod('UsersService', 'count')
-  async count(data: Query): Promise<Count> {
-    this.logger.info('UsersController#count.call', data)
+  async count(query: Query): Promise<Count> {
+    this.logger.info('UsersController#count.call', query)
 
-    const count = await this.usersService.count({
-      where: data.where ? JSON.parse(data.where) : undefined
+    const count: number = await this.usersService.count({
+      where: query.where ? JSON.parse(query.where) : undefined
     })
 
     this.logger.info('UsersController#count.result', count)

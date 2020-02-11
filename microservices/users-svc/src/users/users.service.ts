@@ -12,10 +12,10 @@ export class UsersServiceImpl implements UsersService {
     logger.setContext(UsersServiceImpl.name)
   }
 
-  async findAll(query?: FindOptions): Promise<User[]> {
+  async findAll(query?: FindOptions): Promise<Array<User>> {
     this.logger.info('UsersService#findAll.call', query)
 
-    const result = await this.repo.findAll(query)
+    const result: Array<User> = await this.repo.findAll(query)
 
     this.logger.info('UsersService#findAll.result', result)
 
@@ -25,7 +25,7 @@ export class UsersServiceImpl implements UsersService {
   async count(query?: FindOptions): Promise<number> {
     this.logger.info('UsersService#count.call', query)
 
-    const result = await this.repo.count(query)
+    const result: number = await this.repo.count(query)
 
     this.logger.info('UsersService#count.result', result)
 

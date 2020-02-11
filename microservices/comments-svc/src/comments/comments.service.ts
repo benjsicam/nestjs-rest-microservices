@@ -13,7 +13,7 @@ export class CommentsServiceImpl implements CommentsService {
     logger.setContext(CommentsServiceImpl.name)
   }
 
-  async findAll(query?: FindOptions): Promise<Comment[]> {
+  async findAll(query?: FindOptions): Promise<Array<Comment>> {
     this.logger.info('CommentsService#findAll.call', query)
 
     const result = await this.repo.findAll(query)

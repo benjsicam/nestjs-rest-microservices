@@ -1,5 +1,4 @@
-import { Count } from '../../commons/interfaces/request-response.interface'
-import { Query } from '../../commons/interfaces/data.interface'
+import { Count, Query } from '../commons/interfaces/commons.interface'
 
 export interface User {
   id: string

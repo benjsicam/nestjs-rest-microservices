@@ -1,6 +1,5 @@
-import { Count } from '../../commons/interfaces/request-response.interface'
-import { Query } from '../../commons/interfaces/data.interface'
-import { CommentDto } from '../dtos/comment.dto'
+import { Count, Query } from '../commons/interfaces/commons.interface'
+import { CommentDto } from './comment.dto'
 
 export interface Comment {
   id: string

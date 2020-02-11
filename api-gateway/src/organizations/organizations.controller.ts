@@ -3,13 +3,14 @@ import { ClientGrpc } from '@nestjs/microservices'
 import { Controller, HttpCode, Get, Post, Delete, Query, Body, Param, Inject, OnModuleInit, NotFoundException } from '@nestjs/common'
 
 import { QueryUtils } from '../utils/query.utils'
-import { RequestQuery, Count, QueryResponse } from '../commons/interfaces/request-response.interface'
+import { Count } from '../commons/interfaces/commons.interface'
+import { RequestQuery, QueryResponse } from '../commons/interfaces/request-response.interface'
 
-import { CommentsService, Comment } from '../comments/interfaces/comments.interface'
-import { UsersService } from '../users/interfaces/users.interface'
-import { OrganizationsService, Organization } from './interfaces/organizations.interface'
+import { CommentsService, Comment } from '../comments/comments.interface'
+import { OrganizationsService, Organization } from './organizations.interface'
+import { UsersService } from '../users/users.interface'
 
-import { CommentDto } from '../comments/dtos/comment.dto'
+import { CommentDto } from '../comments/comment.dto'
 
 @Controller('orgs')
 export class OrganizationController implements OnModuleInit {
@@ -41,7 +42,7 @@ export class OrganizationController implements OnModuleInit {
 
     const args = {
       count: await this.organizationsService.count({
-        where: query.q ? { name: { $like: query.q } } : undefined
+        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
       }),
       ...(await this.queryUtils.getQueryParams(query))
     }
@@ -71,17 +72,15 @@ export class OrganizationController implements OnModuleInit {
   async findOrganizationMembers(@Param('name') name: string, @Query() query: RequestQuery): Promise<QueryResponse> {
     this.logger.info('OrganizationController#findOrganizationMembers.call', query)
 
-    const organization: Organization = await this.organizationsService.findOne({
-      where: JSON.stringify({
-        name
-      })
+    const organization: Organization = await this.organizationsService.findByName({
+      name
     })
 
     if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')
 
     const args = {
       count: await this.usersService.count({
-        where: query.q ? { name: { $like: query.q } } : undefined
+        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
       }),
       ...(await this.queryUtils.getQueryParams(query))
     }
@@ -118,17 +117,15 @@ export class OrganizationController implements OnModuleInit {
   async findOrganizationComments(@Param('name') name: string, @Query() query: RequestQuery): Promise<QueryResponse> {
     this.logger.info('OrganizationController#findOrganizationComments.call', query)
 
-    const organization: Organization = await this.organizationsService.findOne({
-      where: JSON.stringify({
-        name
-      })
+    const organization: Organization = await this.organizationsService.findByName({
+      name
     })
 
     if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')
 
     const args = {
       count: await this.commentsService.count({
-        where: query.q ? { name: { $like: query.q } } : undefined
+        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
       }),
       ...(await this.queryUtils.getQueryParams(query))
     }
@@ -177,10 +174,8 @@ export class OrganizationController implements OnModuleInit {
   async deleteOrganizationComments(@Param('name') name: string): Promise<Count> {
     this.logger.info('OrganizationController#deleteOrganizationComments.call', name)
 
-    const organization: Organization = await this.organizationsService.findOne({
-      where: JSON.stringify({
-        name
-      })
+    const organization: Organization = await this.organizationsService.findByName({
+      name
     })
 
     if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')

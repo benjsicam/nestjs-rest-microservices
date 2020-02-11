@@ -13,7 +13,3 @@ export interface QueryResponse {
   limit: number
   data: Array<any>
 }
-
-export interface Count {
-  count: number
-}

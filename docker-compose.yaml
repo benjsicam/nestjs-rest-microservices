@@ -1,0 +1,155 @@
+version: "3"
+
+services:
+  comments-svc:
+    image: "comments-svc:dev"
+    build:
+      context: "./microservices/comments-svc"
+    networks:
+      - "frontend"
+      - "backend"
+      - "commentsdomain"
+    expose:
+      - "50051"
+    depends_on:
+      - "comments-db"
+    environment:
+      NODE_ENV: "test"
+      URL: "0.0.0.0"
+      PORT: "50051"
+      DB_NAME: "postgres"
+      DB_HOST: "comments-db"
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+    restart: "on-failure"
+
+  organizations-svc:
+    image: "organizations-svc:dev"
+    build:
+      context: "./microservices/organizations-svc"
+    networks:
+      - "frontend"
+      - "backend"
+      - "organizationsdomain"
+    expose:
+      - "50051"
+    depends_on:
+      - "organizations-db"
+    environment:
+      NODE_ENV: "test"
+      URL: "0.0.0.0"
+      PORT: "50051"
+      DB_NAME: "postgres"
+      DB_HOST: "organizations-db"
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+    restart: "on-failure"
+
+  users-svc:
+    image: "users-svc:dev"
+    build:
+      context: "./microservices/users-svc"
+    networks:
+      - "frontend"
+      - "backend"
+      - "usersdomain"
+    expose:
+      - "50051"
+    depends_on:
+      - "users-db"
+    environment:
+      NODE_ENV: "test"
+      URL: "0.0.0.0"
+      PORT: "50051"
+      DB_NAME: "postgres"
+      DB_HOST: "users-db"
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+    restart: "on-failure"
+
+  api-gateway:
+    image: "api-gateway:dev"
+    build:
+      context: "./api-gateway"
+    networks:
+      - "frontend"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "comments-svc"
+      - "organizations-svc"
+      - "users-svc"
+    environment:
+      NODE_ENV: "test"
+      PORT: "3000"
+      COMMENTS_SVC_URL: "comments-svc"
+      COMMENTS_SVC_PORT: "50051"
+      ORGANIZATIONS_SVC_URL: "organizations-svc"
+      ORGANIZATIONS_SVC_PORT: "50051"
+      USERS_SVC_URL: "users-svc"
+      USERS_SVC_PORT: "50051"
+    healthcheck:
+      test: ["CMD", "wget", "localhost:3000/healthz -q -O - > /dev/null 2>&1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: "on-failure"
+
+  swagger-ui:
+    image: "swaggerapi/swagger-ui:v3.25.0"
+    networks:
+      - "frontend"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./docs/openapi-spec.yaml:/usr/share/spec/openapi-spec.yaml"
+    environment:
+      SWAGGER_JSON: "/usr/share/spec/openapi-spec.yaml"
+    healthcheck:
+      test: ["CMD", "wget", "localhost:8080 -q -O - > /dev/null 2>&1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  comments-db:
+    image: "postgres:12.1-alpine"
+    networks:
+      - "commentsdomain"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    restart: "on-failure"
+
+  organizations-db:
+    image: "postgres:12.1-alpine"
+    networks:
+      - "organizationsdomain"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    restart: "on-failure"
+
+  users-db:
+    image: "postgres:12.1-alpine"
+    networks:
+      - "usersdomain"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    restart: "on-failure"
+
+networks:
+  frontend:
+  backend:
+  commentsdomain:
+  organizationsdomain:
+  usersdomain:

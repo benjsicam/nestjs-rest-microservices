@@ -99,9 +99,9 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 ## How to Run
 
 1. System Requirements - must be Linux/Mac
-[Node.js](https://nodejs.org/en/) - v12 Recommended
-[Docker](https://docs.docker.com/install/) - latest
-[Docker Compose](https://docs.docker.com/compose/install/) - latest
+- [Node.js](https://nodejs.org/en/) - v12 Recommended
+- [Docker](https://docs.docker.com/install/) - latest
+- [Docker Compose](https://docs.docker.com/compose/install/) - latest
 
 2. On the Terminal, go into the project's root folder (`cd /project/root/folder`) and execute `npm start`. The start script will install all npm dependencies for all projects, lint the code, compile the code, build the artifacts (Docker images) and run them via `docker-compose`.
 

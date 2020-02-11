@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Chatter API",
-    "description": "HTTP/REST API for Chatter Service",
+    "title": "REST API Gateway",
+    "description": "REST API Gateway Documentation",
     "version": "1.0.0"
   },
   "servers": [

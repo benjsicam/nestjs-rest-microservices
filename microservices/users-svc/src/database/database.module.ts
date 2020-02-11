@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { LoggerModule } from 'nestjs-pino'
 
-import { databaseProviders } from './database.providers'
+import { DatabaseProvider } from './database.providers'
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { databaseProviders } from './database.providers'
       }
     })
   ],
-  providers: [...databaseProviders],
-  exports: [...databaseProviders]
+  providers: [DatabaseProvider],
+  exports: [DatabaseProvider]
 })
 export class DatabaseModule {}

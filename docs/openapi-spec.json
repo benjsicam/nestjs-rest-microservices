@@ -29,7 +29,8 @@
               "type": "string",
               "default": "",
               "nullable": true
-            }
+            },
+            "example": "acme"
           },
           {
             "name": "select",
@@ -39,17 +40,18 @@
               "type": "string",
               "default": "",
               "nullable": true
-            }
+            },
+            "example": "id,name"
           },
           {
-            "name": "sort",
+            "name": "orderBy",
             "in": "query",
             "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
             "schema": {
               "type": "string",
-              "default": "name",
               "nullable": true
-            }
+            },
+            "example": "name,-createdAt"
           },
           {
             "name": "page",
@@ -78,7 +80,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/CommentQueryResponse"
+                  "$ref": "#/components/responses/OrganizationQueryResponse"
+                },
+                "example": {
+                  "totalRecords": 2,
+                  "totalPages": 1,
+                  "page": 1,
+                  "limit": 25,
+                  "data": [
+                    {
+                      "id": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+                      "name": "acme",
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 2
+                    },
+                    {
+                      "id": "6696c3fa-ff8a-4b23-9997-27b434352d32",
+                      "name": "acme2",
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 9
+                    }
+                  ]
                 }
               }
             }
@@ -110,7 +134,7 @@
         "tags": [
           "organizations"
         ],
-        "summary": "Query or search comments",
+        "summary": "Query or search comments associated to an organization",
         "description": "Retrieves a collection of comments associated to an organization",
         "operationId": "findOrganizationComments",
         "parameters": [
@@ -127,12 +151,13 @@
           {
             "name": "q",
             "in": "query",
-            "description": "The parameter to filter the query results using a property",
+            "description": "The parameter to filter the query results using the contents of a comment",
             "schema": {
               "type": "string",
               "default": "",
               "nullable": true
-            }
+            },
+            "example": "Lorem Ipsum"
           },
           {
             "name": "select",
@@ -142,17 +167,18 @@
               "type": "string",
               "default": "",
               "nullable": true
-            }
+            },
+            "example": "id,comment"
           },
           {
-            "name": "sort",
+            "name": "orderBy",
             "in": "query",
             "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
             "schema": {
               "type": "string",
-              "default": "name",
               "nullable": true
-            }
+            },
+            "example": "organization,-createdAt"
           },
           {
             "name": "page",
@@ -182,6 +208,30 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/responses/CommentQueryResponse"
+                },
+                "example": {
+                  "totalRecords": 2,
+                  "totalPages": 1,
+                  "page": 1,
+                  "limit": 25,
+                  "data": [
+                    {
+                      "id": "a64b3121-8d27-43f9-9138-2e4121972720",
+                      "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+                      "comment": "Nulla condimentum ornare nisi auctor euismod. Phasellus vel tincidunt lectus. Nulla porttitor consequat augue, ut molestie mauris ultricies vel.",
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 2
+                    },
+                    {
+                      "id": "9607a6a4-db32-4f6e-b600-78f6b7f67799",
+                      "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+                      "comment": "Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus molestie, arcu in rutrum euismod, leo justo aliquam ante, molestie gravida odio quam nec urna.",
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 8
+                    }
+                  ]
                 }
               }
             }
@@ -223,7 +273,8 @@
             "schema": {
               "type": "string",
               "default": ""
-            }
+            },
+            "example": "acme"
           },
           {
             "name": "select",
@@ -232,7 +283,8 @@
             "schema": {
               "type": "string",
               "nullable": true
-            }
+            },
+            "example": "id,comment"
           }
         ],
         "requestBody": {
@@ -296,7 +348,8 @@
             "schema": {
               "type": "string",
               "default": ""
-            }
+            },
+            "example": "acme"
           }
         ],
         "responses": {
@@ -368,22 +421,11 @@
             }
           },
           {
-            "name": "expand",
-            "in": "query",
-            "description": "The parameter to control inline expansion of related or associated objects. Can be a comma delimited set of model attributes",
-            "schema": {
-              "type": "string",
-              "default": "",
-              "nullable": true
-            }
-          },
-          {
-            "name": "sort",
+            "name": "orderBy",
             "in": "query",
             "description": "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order",
             "schema": {
               "type": "string",
-              "default": "name",
               "nullable": true
             }
           },
@@ -415,6 +457,36 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/responses/UserQueryResponse"
+                },
+                "example": {
+                  "totalRecords": 2,
+                  "totalPages": 1,
+                  "page": 1,
+                  "limit": 25,
+                  "data": [
+                    {
+                      "id": "331fe8f5-7c1c-48d2-8890-b1df8a1853a1",
+                      "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+                      "loginId": "user1",
+                      "avatar": "https://gravatar.com/avatar/d044a58b427b7d3845dc59e131634a91",
+                      "followers": 2,
+                      "following": 5,
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 2
+                    },
+                    {
+                      "id": "1129438e-0d15-42eb-a7e8-1b7c1ed258c0",
+                      "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+                      "loginId": "user1",
+                      "avatar": "https://gravatar.com/avatar/3d8fd0ddb69827ce84ff637889ff7cd0",
+                      "followers": 6,
+                      "following": 38,
+                      "createdAt": "2019-08-05T10:02:18.047Z",
+                      "updatedAt": "2020-01-05T15:22:03.020Z",
+                      "version": 7
+                    }
+                  ]
                 }
               }
             }
@@ -447,9 +519,6 @@
       "User": {
         "type": "object",
         "description": "User model",
-        "required": [
-          "name"
-        ],
         "properties": {
           "id": {
             "description": "The identifier for the user record",
@@ -494,7 +563,24 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true
+          },
+          "version": {
+            "description": "The record's version in the database.",
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
+        },
+        "example": {
+          "id": "331fe8f5-7c1c-48d2-8890-b1df8a1853a1",
+          "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+          "loginId": "user1",
+          "avatar": "https://gravatar.com/avatar/d044a58b427b7d3845dc59e131634a91",
+          "followers": 2,
+          "following": 5,
+          "createdAt": "2019-08-05T10:02:18.047Z",
+          "updatedAt": "2020-01-05T15:22:03.020Z",
+          "version": 2
         }
       },
       "Comment": {
@@ -530,15 +616,26 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true
+          },
+          "version": {
+            "description": "The record's version in the database.",
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
+        },
+        "example": {
+          "id": "74d0f515-6b4d-4112-9439-ed10752d0bc9",
+          "organization": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+          "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel consequat ipsum, et posuere lorem.",
+          "createdAt": "2019-08-05T10:02:18.047Z",
+          "updatedAt": "2020-01-05T15:22:03.020Z",
+          "version": 2
         }
       },
       "Organization": {
         "type": "object",
         "description": "Organization model",
-        "required": [
-          "name"
-        ],
         "properties": {
           "id": {
             "description": "The identifier for the organization record",
@@ -561,7 +658,20 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true
+          },
+          "version": {
+            "description": "The record's version in the database.",
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
+        },
+        "example": {
+          "id": "7fe5b86f-b30d-40ee-9b8b-8619edf0fb18",
+          "name": "acme",
+          "createdAt": "2019-08-05T10:02:18.047Z",
+          "updatedAt": "2020-01-05T15:22:03.020Z",
+          "version": 2
         }
       }
     },
@@ -687,7 +797,7 @@
         }
       },
       "GenericResponse": {
-        "description": "Successfully deleted resource",
+        "description": "Generic response",
         "content": {
           "application/json": {
             "schema": {
@@ -702,6 +812,9 @@
                   "type": "string"
                 }
               }
+            },
+            "example": {
+              "message": "Generic message"
             }
           }
         }
@@ -726,6 +839,9 @@
                   }
                 }
               ]
+            },
+            "example": {
+              "count": 9
             }
           }
         }
@@ -779,6 +895,14 @@
                   }
                 }
               }
+            },
+            "example": {
+              "code": 404,
+              "type": "NOT_FOUND",
+              "message": "Resource not found",
+              "data": [
+
+              ]
             }
           }
         }
@@ -789,6 +913,18 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 404,
+              "type": "VALIDATION_ERROR",
+              "message": "Validation has failed",
+              "data": [
+                {
+                  "type": "VALIDATION_ERROR",
+                  "field": "url",
+                  "message": "URL must be a valid URL"
+                }
+              ]
             }
           }
         }
@@ -799,6 +935,14 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 409,
+              "type": "CONFLICT_ERROR",
+              "message": "A record with the same name exists",
+              "data": [
+
+              ]
             }
           }
         }
@@ -809,6 +953,14 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 401,
+              "type": "AUTHENTICATION_REQUIRED",
+              "message": "Authentication is required",
+              "data": [
+
+              ]
             }
           }
         }
@@ -819,6 +971,14 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 403,
+              "type": "FORBIDDEN",
+              "message": "Access denied",
+              "data": [
+
+              ]
             }
           }
         }
@@ -829,6 +989,14 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 404,
+              "type": "NOT_FOUND",
+              "message": "Resource not found",
+              "data": [
+
+              ]
             }
           }
         }
@@ -839,6 +1007,14 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/responses/ErrorResponse"
+            },
+            "example": {
+              "code": 500,
+              "type": "INTERNAL_SERVER_ERROR",
+              "message": "An unexpected error has occurred",
+              "data": [
+
+              ]
             }
           }
         }

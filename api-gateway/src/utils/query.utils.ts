@@ -36,10 +36,10 @@ export class QueryUtils {
   }
 
   async getOrder(orderBy: string): Promise<Array<Array<string>>> {
-    const result = []
+    const result: Array<Array<string>> = []
 
     if (!isEmpty(orderBy)) {
-      const fields = orderBy.split(',')
+      const fields: Array<string> = orderBy.split(',')
 
       fields.forEach(field => {
         if (field.trim().charAt(0) !== '-') {

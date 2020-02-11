@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs'
+
 import { Count, Query } from '../commons/interfaces/commons.interface'
 import { CommentDto } from './comment.dto'
 
@@ -9,9 +11,13 @@ export interface Comment {
   updatedAt: string
 }
 
+export interface CommentsQueryResult {
+  data: Array<Comment>
+}
+
 export interface CommentsService {
-  findAll(query?: Query): Promise<Comment[]>
-  count(query?: Query): Promise<Count[]>
-  create(comment: CommentDto): Promise<Comment>
-  destroy(query?: Query): Promise<Count>
+  findAll(query?: Query): Observable<CommentsQueryResult>
+  count(query?: Query): Observable<Count>
+  create(comment: CommentDto): Observable<Comment>
+  destroy(query?: Query): Observable<Count>
 }

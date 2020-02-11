@@ -35,7 +35,7 @@ export class CommentsController {
   async count(data: Query): Promise<Count> {
     this.logger.info('CommentsController#count.call', data)
 
-    const count = await this.commentsService.destroy({
+    const count = await this.commentsService.count({
       where: data.where ? JSON.parse(data.where) : undefined
     })
 

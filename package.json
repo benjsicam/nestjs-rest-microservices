@@ -1,0 +1,25 @@
+{
+  "name": "nestjs-api-microservices",
+  "version": "1.0.0",
+  "description": "A sample REST API Gateway with gRPC back-end microservices built using the NestJS framework.",
+  "scripts": {
+    "docs:proto-gen": "./scripts/generate-proto-docs.sh",
+    "install": "./scripts/install.sh",
+    "lint": "./scripts/lint.sh",
+    "build": "./scripts/build.sh",
+    "docker:build": "docker-compose build",
+    "docker:start": "docker-compose up",
+    "docker:teardown": "docker-compose down -v",
+    "start": "npm run install && npm run lint && npm run build && npm run docker:build && npm run docker:start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:benjsicam/nestjs-rest-microservices.git"
+  },
+  "author": "Benj Sicam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjsicam/nestjs-rest-microservices/issues"
+  },
+  "homepage": "https://github.com/benjsicam/nestjs-rest-microservices#readme"
+}

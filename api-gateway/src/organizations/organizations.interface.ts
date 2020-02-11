@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs'
+
 import { Count, Query, Name } from '../commons/interfaces/commons.interface'
 
 export interface Organization {
@@ -7,8 +9,12 @@ export interface Organization {
   updatedAt: string
 }
 
+export interface OrganizationsQueryResult {
+  data: Array<Organization>
+}
+
 export interface OrganizationsService {
-  findAll(query?: Query): Promise<Organization[]>
-  findByName(name: Name): Promise<Organization>
-  count(query?: Query): Promise<Count>
+  findAll(query?: Query): Observable<OrganizationsQueryResult>
+  findByName(name: Name): Observable<Organization>
+  count(query?: Query): Observable<Count>
 }

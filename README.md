@@ -109,6 +109,8 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 
 4. To test the API, head to the Swagger UI running at [http://localhost:8080](http://localhost:3000)
 
+![REST UI](https://raw.githubusercontent.com/benjsicam/nestjs-rest-microservices/master/docs/img/rest-ui.png)
+
 ## Roadmap
 
 ### General

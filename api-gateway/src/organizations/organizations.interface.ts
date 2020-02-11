@@ -1,5 +1,4 @@
-import { Count } from '../../commons/interfaces/request-response.interface'
-import { Query } from '../../commons/interfaces/data.interface'
+import { Count, Query, Name } from '../commons/interfaces/commons.interface'
 
 export interface Organization {
   id: string
@@ -10,6 +9,6 @@ export interface Organization {
 
 export interface OrganizationsService {
   findAll(query?: Query): Promise<Organization[]>
-  findOne(query: Query): Promise<Organization>
+  findByName(name: Name): Promise<Organization>
   count(query?: Query): Promise<Count>
 }

@@ -35,7 +35,7 @@ export class OrganizationsServiceImpl implements OrganizationsService {
   async count(query?: FindOptions): Promise<number> {
     this.logger.info('OrganizationsService#count.call', query)
 
-    const result:number = await this.repo.count(query)
+    const result: number = await this.repo.count(query)
 
     this.logger.info('OrganizationsService#count.result', result)
 

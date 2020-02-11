@@ -57,20 +57,20 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 
 ### General
 
-[ ] Use RxJS Observables instead of Promises
-[ ] Add Integration Tests
-[ ] Add CI/CD Pipeline
-[ ] Add Kubernetes Manifests
+- [ ] Use RxJS Observables instead of Promises
+- [ ] Add Integration Tests
+- [ ] Add CI/CD Pipeline
+- [ ] Add Kubernetes Manifests
 
 ### API Gateway
 
-[ ] Add Authentication
-[ ] Add Authorization
-[ ] Add Error Handling
-[ ] Add Event Sourcing
+- [ ] Add Authentication
+- [ ] Add Authorization
+- [ ] Add Error Handling
+- [ ] Add Event Sourcing
 
 ### Microservices
 
-[ ] Add Health Check
-[ ] Add Caching
-[ ] Add Error Handling
+- [ ] Add Health Check
+- [ ] Add Caching
+- [ ] Add Error Handling

@@ -18,6 +18,6 @@ message OrganizationsList {
 
 service OrganizationsService {
   rpc findAll (commons.Query) returns (OrganizationsList) {}
-  rpc findOne (commons.Query) returns (Organization) {}
+  rpc findByName (commons.Name) returns (Organization) {}
   rpc count (commons.Query) returns (commons.Count) {}
 }

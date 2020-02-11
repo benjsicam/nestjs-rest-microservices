@@ -6,6 +6,10 @@ message Id {
   string id = 1;
 }
 
+message Name {
+  string name = 1;
+}
+
 message Query {
   repeated string attributes = 1;
   string where = 2;

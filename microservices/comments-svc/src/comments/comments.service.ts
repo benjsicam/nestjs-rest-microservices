@@ -1,14 +1,16 @@
 import { PinoLogger } from 'nestjs-pino'
 import { Inject, Injectable } from '@nestjs/common'
-
 import { FindOptions } from 'sequelize/types'
+
+import { CommentsService } from './comments.interface'
+
 import { Comment } from './comment.entity'
-import { CommentDto } from './dtos/comment.dto'
+import { CommentDto } from './comment.dto'
 
 @Injectable()
-export class CommentsService {
+export class CommentsServiceImpl implements CommentsService {
   constructor(@Inject('CommentsRepository') private readonly repo: typeof Comment, private readonly logger: PinoLogger) {
-    logger.setContext(CommentsService.name)
+    logger.setContext(CommentsServiceImpl.name)
   }
 
   async findAll(query?: FindOptions): Promise<Comment[]> {

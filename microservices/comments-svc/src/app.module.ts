@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { LoggerModule } from 'nestjs-pino'
 
-import { CommentsModule } from './comments/comments.module'
 import { DatabaseModule } from './database/database.module'
+import { CommentsModule } from './comments/comments.module'
 
 @Module({
   imports: [

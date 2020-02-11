@@ -2,11 +2,11 @@ import { PinoLogger } from 'nestjs-pino'
 import { Controller, Inject } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 
-import { Comment } from './comment.entity'
-import { CommentDto } from './dtos/comment.dto'
+import { Count, Query } from '../commons/interfaces/commons.interface'
+import { CommentsService } from './comments.interface'
 
-import { Query } from '../commons/interfaces/data.interface'
-import { Count, CommentsService } from './interfaces/comments.interface'
+import { Comment } from './comment.entity'
+import { CommentDto } from './comment.dto'
 
 @Controller()
 export class CommentsController {
@@ -50,7 +50,7 @@ export class CommentsController {
 
     const result = await this.commentsService.create(data)
 
-    this.logger.info('CommentsController#destroy.result', result)
+    this.logger.info('CommentsController#create.result', result)
 
     return result
   }

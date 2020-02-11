@@ -120,6 +120,7 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 - [ ] Add CI/CD Pipeline
 - [ ] Add Kubernetes Manifests
 - [ ] Pre-populate DBs
+- [ ] Distributed Tracing
 
 ### API Gateway
 

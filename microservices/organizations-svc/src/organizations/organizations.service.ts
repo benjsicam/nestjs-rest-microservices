@@ -12,10 +12,10 @@ export class OrganizationsServiceImpl implements OrganizationsService {
     logger.setContext(OrganizationsServiceImpl.name)
   }
 
-  async findAll(query?: FindOptions): Promise<Organization[]> {
+  async findAll(query?: FindOptions): Promise<Array<Organization>> {
     this.logger.info('OrganizationsService#findAll.call', query)
 
-    const result = await this.repo.findAll(query)
+    const result: Array<Organization> = await this.repo.findAll(query)
 
     this.logger.info('OrganizationsService#findAll.result', result)
 
@@ -25,7 +25,7 @@ export class OrganizationsServiceImpl implements OrganizationsService {
   async findOne(query?: FindOptions): Promise<Organization> {
     this.logger.info('OrganizationsService#findOne.call', query)
 
-    const result = await this.repo.findOne(query)
+    const result: Organization = await this.repo.findOne(query)
 
     this.logger.info('OrganizationsService#findOne.result', result)
 
@@ -35,7 +35,7 @@ export class OrganizationsServiceImpl implements OrganizationsService {
   async count(query?: FindOptions): Promise<number> {
     this.logger.info('OrganizationsService#count.call', query)
 
-    const result = await this.repo.count(query)
+    const result:number = await this.repo.count(query)
 
     this.logger.info('OrganizationsService#count.result', result)
 

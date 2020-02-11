@@ -7,7 +7,7 @@ export interface Name {
 }
 
 export interface Query {
-  attributes?: string[]
+  attributes?: Array<string>
   where?: string
   order?: string
   offset?: number

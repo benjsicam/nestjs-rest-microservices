@@ -9,7 +9,7 @@ export const databaseProviders = [
     useFactory: async (logger: PinoLogger) => {
       logger.setContext('Sequelize')
 
-      const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+      const db: Sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
         dialect: 'postgres',
         host: process.env.DB_HOST,
         port: parseInt(process.env.DB_PORT || '5432', 10),

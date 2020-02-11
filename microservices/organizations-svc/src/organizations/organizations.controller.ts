@@ -3,7 +3,7 @@ import { Controller, Inject } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 
 import { Query, Count, Name } from '../commons/interfaces/commons.interface'
-import { OrganizationsService } from './organizations.interface'
+import { OrganizationsService, OrganizationsQueryResult } from './organizations.interface'
 
 import { Organization } from './organization.entity'
 
@@ -14,27 +14,27 @@ export class OrganizationsController {
   }
 
   @GrpcMethod('OrganizationsService', 'findAll')
-  async findAll(data: Query): Promise<Organization[]> {
-    this.logger.info('OrganizationsController#findAll.call', data)
+  async findAll(query: Query): Promise<OrganizationsQueryResult> {
+    this.logger.info('OrganizationsController#findAll.call', query)
 
-    const result = await this.organizationsService.findAll({
-      attributes: data.attributes || undefined,
-      where: data.where ? JSON.parse(data.where) : undefined,
-      order: data.order ? JSON.parse(data.order) : undefined,
-      offset: data.offset ? data.offset : 0,
-      limit: data.limit ? data.limit : 25
+    const result: Array<Organization> = await this.organizationsService.findAll({
+      attributes: query.attributes || undefined,
+      where: query.where ? JSON.parse(query.where) : undefined,
+      order: query.order ? JSON.parse(query.order) : undefined,
+      offset: query.offset ? query.offset : 0,
+      limit: query.limit ? query.limit : 25
     })
 
     this.logger.info('OrganizationsController#findAll.result', result)
 
-    return result
+    return { data: result }
   }
 
   @GrpcMethod('OrganizationsService', 'findByName')
   async findByName(data: Name): Promise<Organization> {
     this.logger.info('OrganizationsController#findByName.call', data)
 
-    const result = await this.organizationsService.findOne({
+    const result: Organization = await this.organizationsService.findOne({
       where: { name: data.name }
     })
 
@@ -47,7 +47,7 @@ export class OrganizationsController {
   async count(data: Query): Promise<Count> {
     this.logger.info('OrganizationsController#count.call', data)
 
-    const count = await this.organizationsService.count({
+    const count: number = await this.organizationsService.count({
       where: data.where ? JSON.parse(data.where) : undefined
     })
 

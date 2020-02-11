@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package organizations;
+
+import "commons.proto";
+
+message Organization {
+  string id = 1;
+  string name = 2;
+  string createdAt = 3;
+  string updatedAt = 4;
+  int32 version = 5;
+}
+
+message OrganizationsList {
+  repeated Organization data = 5;
+}
+
+service OrganizationsService {
+  rpc findAll (commons.Query) returns (OrganizationsList) {}
+  rpc findByName (commons.Name) returns (Organization) {}
+  rpc count (commons.Query) returns (commons.Count) {}
+}

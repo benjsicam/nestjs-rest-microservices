@@ -5,6 +5,7 @@ import { FindOptions } from 'sequelize/types'
 import { OrganizationsService } from './organizations.interface'
 
 import { Organization } from './organization.entity'
+import { OrganizationDto } from './organization.dto'
 
 @Injectable()
 export class OrganizationsServiceImpl implements OrganizationsService {
@@ -40,5 +41,15 @@ export class OrganizationsServiceImpl implements OrganizationsService {
     this.logger.info('OrganizationsService#count.result', result)
 
     return result
+  }
+
+  async create(organizationDto: OrganizationDto): Promise<Organization> {
+    this.logger.info('OrganizationsService#create.call', organizationDto)
+
+    const organization: Organization = await this.repo.create(organizationDto)
+
+    this.logger.info('OrganizationsService#create.result', organization)
+
+    return organization
   }
 }

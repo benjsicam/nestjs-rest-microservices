@@ -17,7 +17,7 @@ export class Organization extends Model<Organization> {
   id: string
 
   @Column({
-    type: DataType.UUID,
+    type: DataType.STRING,
     unique: true,
     comment: 'The name of the organization'
   })

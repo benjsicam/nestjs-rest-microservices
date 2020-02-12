@@ -1,6 +1,7 @@
 import { PinoLogger } from 'nestjs-pino'
 import { Controller, Inject } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
+import { isEmpty } from 'lodash'
 
 import { Count, Query } from '../commons/interfaces/commons.interface'
 import { CommentsService, CommentsQueryResult } from './comments.interface'
@@ -19,9 +20,9 @@ export class CommentsController {
     this.logger.info('CommentsController#findAll.call', query)
 
     const result: Array<Comment> = await this.commentsService.findAll({
-      attributes: query.attributes || undefined,
-      where: query.where ? JSON.parse(query.where) : undefined,
-      order: query.order ? JSON.parse(query.order) : undefined,
+      attributes: !isEmpty(query.attributes) ? query.attributes : undefined,
+      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined,
+      order: !isEmpty(query.order) ? JSON.parse(query.order) : undefined,
       offset: query.offset ? query.offset : 0,
       limit: query.limit ? query.limit : 25
     })
@@ -36,7 +37,7 @@ export class CommentsController {
     this.logger.info('CommentsController#count.call', query)
 
     const count: number = await this.commentsService.count({
-      where: query.where ? JSON.parse(query.where) : undefined
+      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined
     })
 
     this.logger.info('CommentsController#count.result', count)
@@ -60,11 +61,7 @@ export class CommentsController {
     this.logger.info('CommentsController#destroy.call', query)
 
     const count: number = await this.commentsService.destroy({
-      attributes: query.attributes || undefined,
-      where: query.where ? JSON.parse(query.where) : undefined,
-      order: query.order ? JSON.parse(query.order) : undefined,
-      offset: query.offset ? query.offset : 0,
-      limit: query.limit ? query.limit : 25
+      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined
     })
 
     this.logger.info('CommentsController#destroy.result', count)

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { isNaN, isEmpty } from 'lodash'
+import { isNil, isEmpty, map } from 'lodash'
 
 import { RequestQuery } from '../commons/interfaces/request-response.interface'
 
@@ -10,7 +10,7 @@ export class QueryUtils {
       attributes: await this.getAttributes(query.select),
       order: await this.getOrder(query.orderBy),
       offset: await this.getOffset(query.page, query.limit),
-      page: !isNaN(query.page) ? query.page : 1,
+      page: await this.getPage(query.page),
       limit: await this.getLimit(query.limit)
     }
   }
@@ -19,34 +19,46 @@ export class QueryUtils {
     return !isEmpty(attributes) ? attributes.split(',') : undefined
   }
 
-  async getLimit(limit: number): Promise<number> {
-    let result = 25
+  async getPage(page: any): Promise<number> {
+    let result = 1
 
-    if (!isNaN(limit) && limit > 0) result = limit
+    if (isEmpty(page)) return result
+
+    if (!isNil(page)) result = parseInt(page, 10)
+    if (result < 1) result = 1
 
     return result
   }
 
-  async getOffset(page: number, limit: number): Promise<number> {
-    let result = 0
+  async getLimit(limit: any): Promise<number> {
+    let result = 25
 
-    if (!isNaN(page) && page > 0) result = (page - 1) * limit
+    if (isEmpty(limit)) return result
+
+    if (!isNil(limit)) result = parseInt(limit, 10)
+    if (result < 1) result = 1
 
     return result
+  }
+
+  async getOffset(page: any, limit: any): Promise<number> {
+    const tmpPage = await this.getPage(page)
+    const tmpLimit = await this.getLimit(limit)
+
+    return (tmpPage - 1) * tmpLimit
   }
 
   async getOrder(orderBy: string): Promise<Array<Array<string>>> {
-    const result: Array<Array<string>> = []
+    let result: Array<Array<string>> = []
 
     if (!isEmpty(orderBy)) {
-      const fields: Array<string> = orderBy.split(',')
+      const attributes: Array<string> = orderBy.split(',')
 
-      fields.forEach(field => {
-        if (field.trim().charAt(0) !== '-') {
-          result.push([field.trim(), 'ASC'])
-        } else {
-          result.push([field.trim().substr(1), 'DESC'])
+      result = map(attributes, attribute => {
+        if (attribute.trim().charAt(0) === '-') {
+          return [attribute.trim().substr(1), 'DESC']
         }
+        return [attribute.trim(), 'ASC']
       })
     }
 

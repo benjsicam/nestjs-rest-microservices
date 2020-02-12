@@ -72,7 +72,7 @@ export class OrganizationController implements OnModuleInit {
 
     const result: QueryResponse = {
       totalRecords: count,
-      totalPages: count / args.limit,
+      totalPages: Math.ceil(count / args.limit),
       page: args.page,
       limit: args.limit,
       ...data
@@ -124,7 +124,7 @@ export class OrganizationController implements OnModuleInit {
 
     const result: QueryResponse = {
       totalRecords: count,
-      totalPages: count / args.limit,
+      totalPages: Math.ceil(count / args.limit),
       page: args.page,
       limit: args.limit,
       ...data
@@ -176,7 +176,7 @@ export class OrganizationController implements OnModuleInit {
 
     const result: QueryResponse = {
       totalRecords: count,
-      totalPages: count / args.limit,
+      totalPages: Math.ceil(count / args.limit),
       page: args.page,
       limit: args.limit,
       ...data

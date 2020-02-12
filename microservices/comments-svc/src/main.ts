@@ -24,7 +24,7 @@ async function bootstrap() {
 
   app.useLogger(app.get(Logger))
 
-  const seeder = app.get(CommentsSeeder)
+  const seeder: CommentsSeeder = app.get(CommentsSeeder)
 
   await seeder.seedDatabase()
 

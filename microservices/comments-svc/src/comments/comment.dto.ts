@@ -1,5 +1,5 @@
 export class CommentDto {
-  readonly organization
+  readonly organization: string
 
-  readonly comment
+  readonly comment: string
 }

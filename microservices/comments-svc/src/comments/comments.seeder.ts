@@ -34,8 +34,6 @@ export class CommentsSeeder {
       })
 
       this.logger.info('CommentsSeeder#seedDatabase.newRecord', comment)
-
-      return
     })
 
     return numOfRecords

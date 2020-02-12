@@ -4,6 +4,7 @@ import { LoggerModule } from 'nestjs-pino'
 import { User } from './user.entity'
 import { UsersController } from './users.controller'
 import { UsersServiceImpl } from './users.service'
+import { UsersSeeder } from './users.seeder'
 
 @Module({
   imports: [
@@ -15,9 +16,6 @@ import { UsersServiceImpl } from './users.service'
     })
   ],
   controllers: [UsersController],
-  providers: [
-    { provide: 'UsersService', useClass: UsersServiceImpl },
-    { provide: 'UsersRepository', useValue: User }
-  ]
+  providers: [UsersSeeder, { provide: 'UsersService', useClass: UsersServiceImpl }, { provide: 'UsersRepository', useValue: User }]
 })
 export class UsersModule {}

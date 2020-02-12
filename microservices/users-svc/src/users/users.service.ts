@@ -5,6 +5,7 @@ import { FindOptions } from 'sequelize/types'
 import { UsersService } from './users.interface'
 
 import { User } from './user.entity'
+import { UserDto } from './user.dto'
 
 @Injectable()
 export class UsersServiceImpl implements UsersService {
@@ -28,6 +29,18 @@ export class UsersServiceImpl implements UsersService {
     const result: number = await this.repo.count(query)
 
     this.logger.info('UsersService#count.result', result)
+
+    return result
+  }
+
+  async create(userDto: UserDto): Promise<User> {
+    this.logger.info('UsersService#create.call', userDto)
+
+    const user = new User(userDto)
+
+    const result = await user.save()
+
+    this.logger.info('UsersService#create.result', result)
 
     return result
   }

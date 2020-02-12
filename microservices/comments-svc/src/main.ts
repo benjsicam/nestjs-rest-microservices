@@ -5,6 +5,7 @@ import { Transport } from '@nestjs/microservices'
 import { Logger } from 'nestjs-pino'
 
 import { AppModule } from './app.module'
+import { CommentsSeeder } from './comments/comments.seeder'
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
@@ -22,6 +23,10 @@ async function bootstrap() {
   })
 
   app.useLogger(app.get(Logger))
+
+  const seeder = app.get(CommentsSeeder)
+
+  await seeder.seedDatabase()
 
   return app.listenAsync()
 }

@@ -4,6 +4,7 @@ import { LoggerModule } from 'nestjs-pino'
 import { Comment } from './comment.entity'
 import { CommentsController } from './comments.controller'
 import { CommentsServiceImpl } from './comments.service'
+import { CommentsSeeder } from './comments.seeder'
 
 @Module({
   imports: [
@@ -15,9 +16,6 @@ import { CommentsServiceImpl } from './comments.service'
     })
   ],
   controllers: [CommentsController],
-  providers: [
-    { provide: 'CommentsService', useClass: CommentsServiceImpl },
-    { provide: 'CommentsRepository', useValue: Comment }
-  ]
+  providers: [CommentsSeeder, { provide: 'CommentsService', useClass: CommentsServiceImpl }, { provide: 'CommentsRepository', useValue: Comment }]
 })
 export class CommentsModule {}

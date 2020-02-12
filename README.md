@@ -119,7 +119,7 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 - [ ] Add Integration Tests
 - [ ] Add CI/CD Pipeline
 - [ ] Add Kubernetes Manifests
-- [ ] Pre-populate DBs
+- [x] Pre-populate DBs
 - [ ] Distributed Tracing
 
 ### API Gateway

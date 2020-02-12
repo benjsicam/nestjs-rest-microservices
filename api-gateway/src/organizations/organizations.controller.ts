@@ -1,6 +1,7 @@
 import { PinoLogger } from 'nestjs-pino'
 import { ClientGrpc, Client } from '@nestjs/microservices'
 import { Controller, Get, Post, Delete, Query, Body, Param, Inject, OnModuleInit, NotFoundException, Header } from '@nestjs/common'
+import { isEmpty } from 'lodash'
 
 import { QueryUtils } from '../utils/query.utils'
 import { Count } from '../commons/interfaces/commons.interface'
@@ -54,14 +55,14 @@ export class OrganizationController implements OnModuleInit {
 
     const { count } = await this.organizationsService
       .count({
-        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
+        where: !isEmpty(query.q) ? JSON.stringify({ name: { $like: query.q } }) : undefined
       })
       .toPromise()
 
     const data: OrganizationsQueryResult = await this.organizationsService
       .findAll({
         attributes: args.attributes,
-        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined,
+        where: !isEmpty(query.q) ? JSON.stringify({ name: { $like: query.q } }) : undefined,
         order: JSON.stringify(args.order),
         offset: args.offset,
         limit: args.limit
@@ -96,7 +97,7 @@ export class OrganizationController implements OnModuleInit {
 
     const where = { organization: organization.id }
 
-    if (query.q) {
+    if (!isEmpty(query.q)) {
       Object.assign(where, {
         name: { $like: query.q }
       })
@@ -116,7 +117,7 @@ export class OrganizationController implements OnModuleInit {
       .findAll({
         attributes: args.attributes,
         where: JSON.stringify(where),
-        order: JSON.stringify(args.order),
+        order: !isEmpty(args.order) ? JSON.stringify(args.order) : JSON.stringify([['followers', 'DESC']]),
         offset: args.offset,
         limit: args.limit
       })
@@ -150,7 +151,7 @@ export class OrganizationController implements OnModuleInit {
 
     const where = { organization: organization.id }
 
-    if (query.q) {
+    if (!isEmpty(query.q)) {
       Object.assign(where, {
         name: { $like: query.q }
       })

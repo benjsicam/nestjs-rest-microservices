@@ -1,6 +1,6 @@
 import { PinoLogger } from 'nestjs-pino'
 import { ClientGrpc, Client } from '@nestjs/microservices'
-import { Controller, HttpCode, Get, Post, Delete, Query, Body, Param, Inject, OnModuleInit, NotFoundException, Header } from '@nestjs/common'
+import { Controller, Get, Post, Delete, Query, Body, Param, Inject, OnModuleInit, NotFoundException, Header } from '@nestjs/common'
 
 import { QueryUtils } from '../utils/query.utils'
 import { Count } from '../commons/interfaces/commons.interface'
@@ -51,13 +51,13 @@ export class OrganizationController implements OnModuleInit {
     const args = {
       ...(await this.queryUtils.getQueryParams(query))
     }
-    this.logger.info('OrganizationController#findOrganizations.args', args)
+
     const { count } = await this.organizationsService
       .count({
         where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
       })
       .toPromise()
-    this.logger.info('OrganizationController#findOrganizations.count', count)
+
     const data: OrganizationsQueryResult = await this.organizationsService
       .findAll({
         attributes: args.attributes,
@@ -67,8 +67,6 @@ export class OrganizationController implements OnModuleInit {
         limit: args.limit
       })
       .toPromise()
-
-    this.logger.info('OrganizationController#findOrganizations.data', data)
 
     const result: QueryResponse = {
       totalRecords: count,
@@ -96,14 +94,6 @@ export class OrganizationController implements OnModuleInit {
 
     if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')
 
-    const args = {
-      ...(await this.queryUtils.getQueryParams(query))
-    }
-    const { count } = await this.usersService
-      .count({
-        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
-      })
-      .toPromise()
     const where = { organization: organization.id }
 
     if (query.q) {
@@ -111,6 +101,16 @@ export class OrganizationController implements OnModuleInit {
         name: { $like: query.q }
       })
     }
+
+    const args = {
+      ...(await this.queryUtils.getQueryParams(query))
+    }
+
+    const { count } = await this.usersService
+      .count({
+        where: JSON.stringify(where)
+      })
+      .toPromise()
 
     const data: UsersQueryResult = await this.usersService
       .findAll({
@@ -148,14 +148,6 @@ export class OrganizationController implements OnModuleInit {
 
     if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')
 
-    const args = {
-      ...(await this.queryUtils.getQueryParams(query))
-    }
-    const { count } = await this.commentsService
-      .count({
-        where: query.q ? JSON.stringify({ name: { $like: query.q } }) : undefined
-      })
-      .toPromise()
     const where = { organization: organization.id }
 
     if (query.q) {
@@ -163,6 +155,16 @@ export class OrganizationController implements OnModuleInit {
         name: { $like: query.q }
       })
     }
+
+    const args = {
+      ...(await this.queryUtils.getQueryParams(query))
+    }
+
+    const { count } = await this.commentsService
+      .count({
+        where: JSON.stringify(where)
+      })
+      .toPromise()
 
     const data: CommentsQueryResult = await this.commentsService
       .findAll({
@@ -189,10 +191,23 @@ export class OrganizationController implements OnModuleInit {
 
   @Post(':name/comments')
   @Header('Content-Type', 'application/json')
-  async createOrganizationComment(@Param('name') name: string, @Query('select') select: string, @Body() comment: CommentDto): Promise<Comment> {
-    this.logger.info('OrganizationController#createOrganizationComment.call', name, select)
+  async createOrganizationComment(@Param('name') name: string, @Body() comment: CommentDto): Promise<Comment> {
+    this.logger.info('OrganizationController#createOrganizationComment.call', name)
 
-    const result: Comment = await this.commentsService.create(comment).toPromise()
+    const organization: Organization = await this.organizationsService
+      .findByName({
+        name
+      })
+      .toPromise()
+
+    if (!organization) throw new NotFoundException('NOT_FOUND', 'Organization not found.')
+
+    const result: Comment = await this.commentsService
+      .create({
+        ...comment,
+        organization: organization.id
+      })
+      .toPromise()
 
     this.logger.info('OrganizationController#createOrganizationComment.result', result)
 
@@ -200,7 +215,6 @@ export class OrganizationController implements OnModuleInit {
   }
 
   @Delete(':name/comments')
-  @HttpCode(204)
   @Header('Content-Type', 'application/json')
   async deleteOrganizationComments(@Param('name') name: string): Promise<Count> {
     this.logger.info('OrganizationController#deleteOrganizationComments.call', name)

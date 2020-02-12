@@ -36,7 +36,7 @@ export class UsersController {
     this.logger.info('UsersController#count.call', query)
 
     const count: number = await this.usersService.count({
-      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined,
+      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined
     })
 
     this.logger.info('UsersController#count.result', count)

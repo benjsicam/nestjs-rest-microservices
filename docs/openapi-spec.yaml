@@ -187,19 +187,20 @@ paths:
             type: "string"
             default: ""
           example: "acme"
-        - name: "select"
-          in: "query"
-          description: "The parameter to control the projection of response results. Can be a comma delimited set of model attributes"
-          schema:
-            type: "string"
-            nullable: true
-          example: "id,comment"
       requestBody:
         description: "New comment to create"
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Comment"
+              type: "object"
+              required:
+                - "comment"
+              properties:
+                comment:
+                  type: "string"
+                  description: "The comment text"
+            example:
+              comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas gravida velit nec semper congue. Etiam in orci nec lorem laoreet sodales id eget magna."
       responses:
         201:
           description: "Successfully created comment"
@@ -235,7 +236,7 @@ paths:
             default: ""
           example: "acme"
       responses:
-        204:
+        200:
           $ref: "#/components/responses/DeleteResponse"
         400:
           $ref: "#/components/responses/BadRequestError"
@@ -264,6 +265,7 @@ paths:
           schema:
             type: "string"
             default: ""
+          example: "acme"
         - name: "q"
           in: "query"
           description: "The parameter to filter the query results using the member's name"
@@ -271,6 +273,7 @@ paths:
             type: "string"
             default: ""
             nullable: true
+          example: "user1"
         - name: "select"
           in: "query"
           description: "The parameter to control the projection of query results. Can be a comma delimited set of model attributes"
@@ -278,12 +281,14 @@ paths:
             type: "string"
             default: ""
             nullable: true
+          example: "id,loginId"
         - name: "orderBy"
           in: "query"
           description: "The parameter to control the sorting for the query results. Can be a comma delimited set of model attributes. Default sort order is ascending. Use the minus (-) sign before the field to change sort order"
           schema:
             type: "string"
             nullable: true
+          example: "loginId,-createdAt"
         - name: "page"
           in: "query"
           description: "The pagination parameter to control the page number"
@@ -561,16 +566,14 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-            - $ref: "#/components/responses/GenericResponse"
-            - type: "object"
-              properties:
-                count:
-                  description: "The number of records deleted from the database"
-                  type: "integer"
-                  format: "int32"
+            type: "object"
+            properties:
+              count:
+                description: "The number of records deleted from the database"
+                type: "integer"
+                format: "int32"
           example:
-            count: 9
+            count: 8
     ErrorResponse:
       description: "Error response"
       content:
@@ -622,7 +625,7 @@ components:
           schema:
             $ref: "#/components/responses/ErrorResponse"
           example:
-            code: 404
+            code: 400
             type: "VALIDATION_ERROR"
             message: "Validation has failed"
             data:

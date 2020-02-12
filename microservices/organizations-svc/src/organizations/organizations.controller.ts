@@ -49,7 +49,7 @@ export class OrganizationsController {
     this.logger.info('OrganizationsController#count.call', query)
 
     const count: number = await this.organizationsService.count({
-      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined,
+      where: !isEmpty(query.where) ? JSON.parse(query.where) : undefined
     })
 
     this.logger.info('OrganizationsController#count.result', count)

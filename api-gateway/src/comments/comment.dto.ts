@@ -1,3 +1,5 @@
 export class CommentDto {
-  readonly comment
+  readonly id?: string
+
+  readonly comment: string
 }

@@ -288,7 +288,7 @@ paths:
           schema:
             type: "string"
             nullable: true
-          example: "loginId,-createdAt"
+          example: "-followers"
         - name: "page"
           in: "query"
           description: "The pagination parameter to control the page number"

@@ -433,7 +433,7 @@
               "type": "string",
               "nullable": true
             },
-            "example": "loginId,-createdAt"
+            "example": "-followers"
           },
           {
             "name": "page",

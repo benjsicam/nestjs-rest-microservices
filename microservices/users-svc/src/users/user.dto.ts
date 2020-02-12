@@ -1,4 +1,6 @@
 export class UserDto {
+  readonly id?: string
+
   readonly organization: string
 
   readonly loginId: string

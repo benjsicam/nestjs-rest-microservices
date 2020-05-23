@@ -98,7 +98,7 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 
 ## How to Run
 
-1. System Requirements - must be Linux/Mac
+1. System Requirements
 - [Node.js](https://nodejs.org/en/) - v12 Recommended
 - [Docker](https://docs.docker.com/install/) - latest
 - [Docker Compose](https://docs.docker.com/compose/install/) - latest

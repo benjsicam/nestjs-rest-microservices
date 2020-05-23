@@ -115,18 +115,13 @@ Deployment is done with containers in mind. A Docker Compose file along with Doc
 
 ### General
 
-- [ ] Use RxJS Observables instead of Promises
 - [ ] Add Integration Tests
 - [ ] Add CI/CD Pipeline
-- [ ] Add Kubernetes Manifests
-- [x] Pre-populate DBs
-- [ ] Distributed Tracing
 
 ### API Gateway
 
 - [ ] Add authentication
 - [ ] Add authorization
-- [ ] Add event sourcing
 - [ ] Add request/input data validation
 - [ ] Improve error handling
 

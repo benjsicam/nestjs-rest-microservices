@@ -3,8 +3,8 @@ import { Controller, Inject } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 import { isEmpty } from 'lodash'
 
-import { Count, Query } from '../commons/interfaces/commons.interface'
-import { CommentsService, CommentsQueryResult } from './comments.interface'
+import { Count, Query } from '../commons/commons.interface'
+import { CommentsService, CommentsQueryResult } from '../commons/comments.interface'
 
 import { Comment } from './comment.entity'
 import { CommentDto } from './comment.dto'

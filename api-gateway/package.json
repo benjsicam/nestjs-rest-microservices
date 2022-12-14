@@ -23,7 +23,7 @@
     "@nestjs/core": "6.11.6",
     "@nestjs/microservices": "6.11.6",
     "@nestjs/platform-express": "6.11.6",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "grpc": "^1.24.2",
     "lodash": "4.17.15",
     "nestjs-pino": "1.1.3",
